@@ -30,7 +30,7 @@ public interface IKey {
 	
 	public interface KeyReleaseListener {
 		
-		public void onKeyRelease(KeyPressEvent event);
+		public void onKeyRelease(KeyReleaseEvent event);
 		
 	}
 	
@@ -59,5 +59,11 @@ public interface IKey {
 	public BufferedImage getCurrentImage();
 	
 	public void setCurrentImage(BufferedImage image);
+	
+	default void clearKey() {
+		BufferedImage bi = new BufferedImage(getKeyboard().getButtonWidth(), getKeyboard().getButtonHeight(), 
+				BufferedImage.TYPE_INT_ARGB);
+		setCurrentImage(bi);
+	}
 	
 }

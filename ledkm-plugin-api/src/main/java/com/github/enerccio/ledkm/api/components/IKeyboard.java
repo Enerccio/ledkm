@@ -1,7 +1,9 @@
 package com.github.enerccio.ledkm.api.components;
 
+import java.awt.image.BufferedImage;
 import java.util.Collection;
 
+import com.github.enerccio.ledkm.api.PluginException;
 import com.github.enerccio.ledkm.api.components.IKey.KeyHeldListener;
 import com.github.enerccio.ledkm.api.components.IKey.KeyPressListener;
 import com.github.enerccio.ledkm.api.components.IKey.KeyReleaseListener;
@@ -10,7 +12,7 @@ public interface IKeyboard {
 
 	public enum KeyboardState {
 		
-		CONNECTED, DISCONNECTED
+		CONNECTED, DISCONNECTED, ERROR
 		
 	}
 	
@@ -32,6 +34,10 @@ public interface IKeyboard {
 	
 	public String getName();
 	
+	public String getIdentification();
+	
+	public BufferedImage getIcon();
+	
 	public int getRows();
 	
 	public int getColumns();
@@ -42,7 +48,7 @@ public interface IKeyboard {
 	
 	public float getBrightness();
 	
-	public float setBrightness();
+	public void setBrightness(float brightness);
 	
 	public IKey getKey(int row, int column);
 	
@@ -63,5 +69,7 @@ public interface IKeyboard {
 	public void unregisterKeyHeldListener(KeyHeldListener listener);
 	
 	public Collection<KeyHeldListener> getKeyHeldListeners();
+	
+	public void renderLoop(BufferedImage[][] backgrounds) throws PluginException;
 	
 }

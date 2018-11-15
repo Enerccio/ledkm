@@ -12,4 +12,6 @@ public interface IKeyboardPlugin extends IPlugin {
 	
 	public Collection<KeyboardStateListener> getKeyboardStateListeners();
 	
+	public void keyboardEventTick();
+	
 }

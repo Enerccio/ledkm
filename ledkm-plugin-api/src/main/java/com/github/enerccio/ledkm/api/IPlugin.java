@@ -7,5 +7,11 @@ public interface IPlugin {
 	public String getPluginVersion();
 	
 	public String getPluginAuthor();
+	
+	public void setLKM(ILKM lkm);
+	
+	public void load() throws PluginLoadException;
+	
+	public void shutdown() throws Exception;
 
 }
