@@ -10,21 +10,30 @@
 		<version>1.0</version>
 	</parent>
 
-	<artifactId>ledkm-plugin-api</artifactId>
+	<artifactId>led-keyboard-manager</artifactId>
 
-	<name>ledkm-plugin-api</name>
+	<name>led-keyboard-manager</name>
 	<url>http://maven.apache.org</url>
-
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-
 	<dependencies>
 		<dependency>
-			<groupId>org.hid4java</groupId>
-			<artifactId>hid4java</artifactId>
-			<version>0.5.0</version>
-			<scope>provided</scope>
+			<groupId>com.github.enerccio</groupId>
+			<artifactId>led-keyboard-manager-deps</artifactId>
+			<version>1.0</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.eclipse.tycho</groupId>
+			<artifactId>org.eclipse.osgi</artifactId>
+			<version>3.8.0.v20120430-1750</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.github.enerccio</groupId>
+			<artifactId>ledkm-plugin-api</artifactId>
+			<version>1.0</version>
 		</dependency>
 	</dependencies>
 </project>

@@ -11,6 +11,8 @@
     <modules>
         <module>ledkm-plugin-api</module>
     <module>elgato-stream-deck</module>
+    <module>led-keyboard-manager</module>
+    <module>led-keyboard-manager-deps</module>
   </modules>
 
     <build>

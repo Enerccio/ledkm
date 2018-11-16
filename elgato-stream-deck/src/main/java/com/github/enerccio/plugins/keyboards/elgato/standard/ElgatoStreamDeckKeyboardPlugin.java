@@ -9,11 +9,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.hid4java.HidDevice;
-import org.hid4java.HidManager;
 import org.hid4java.HidServices;
 import org.hid4java.HidServicesListener;
-import org.hid4java.HidServicesSpecification;
-import org.hid4java.ScanMode;
 import org.hid4java.event.HidServicesEvent;
 
 import com.github.enerccio.ledkm.api.IKeyboardPlugin;
@@ -66,13 +63,21 @@ public class ElgatoStreamDeckKeyboardPlugin implements IKeyboardPlugin {
 	public Collection<KeyboardStateListener> getKeyboardStateListeners() {
 		return new LinkedHashSet<>(stateListeners);
 	}
-
-	@Override
-	public void load() throws PluginLoadException {
+	
+	/*
 		HidServicesSpecification hidServicesSpecification = new HidServicesSpecification();
 	    hidServicesSpecification.setAutoShutdown(true);
 	    hidServicesSpecification.setScanMode(ScanMode.NO_SCAN);
 		service = HidManager.getHidServices(hidServicesSpecification);
+		
+		service.scan();
+		
+		service.shutdown();
+	 */
+
+	@Override
+	public void load() throws PluginLoadException {
+		service = lkm.getHidService();
 
 		service.addHidServicesListener(new HidServicesListener() {
 
@@ -154,9 +159,6 @@ public class ElgatoStreamDeckKeyboardPlugin implements IKeyboardPlugin {
 			}
 		});
 		
-
-		service.start();
-		
 		for (HidDevice hidDevice : service.getAttachedHidDevices()) {
 			if (isElgatoDevice(hidDevice)) {
 				loadDevice(hidDevice);
@@ -211,7 +213,6 @@ public class ElgatoStreamDeckKeyboardPlugin implements IKeyboardPlugin {
 			}
 			connectedDecks.clear();
 		}
-		service.shutdown();
 	}
 
 	@Override
@@ -226,8 +227,6 @@ public class ElgatoStreamDeckKeyboardPlugin implements IKeyboardPlugin {
 				});
 			}
 		}
-		
-		service.scan();
 		
 		Set<ElgatoStreamDeck> decks = new HashSet<>();
 		synchronized (connectedDecks) {
