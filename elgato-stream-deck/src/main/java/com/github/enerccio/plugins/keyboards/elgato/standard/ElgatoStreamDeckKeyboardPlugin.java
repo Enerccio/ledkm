@@ -1,5 +1,6 @@
 package com.github.enerccio.plugins.keyboards.elgato.standard;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -236,6 +237,11 @@ public class ElgatoStreamDeckKeyboardPlugin implements IKeyboardPlugin {
 		for (ElgatoStreamDeck deck : decks) {
 			deck.resolveReadEvents();
 		}
+	}
+
+	@Override
+	public Collection<IKeyboard> getKeyboards() {
+		return new ArrayList<IKeyboard>(connectedDecks.values());
 	}
 
 }

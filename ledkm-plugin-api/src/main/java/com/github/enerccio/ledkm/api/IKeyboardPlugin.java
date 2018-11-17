@@ -2,6 +2,7 @@ package com.github.enerccio.ledkm.api;
 
 import java.util.Collection;
 
+import com.github.enerccio.ledkm.api.components.IKeyboard;
 import com.github.enerccio.ledkm.api.components.IKeyboard.KeyboardStateListener;
 
 public interface IKeyboardPlugin extends IPlugin {
@@ -13,5 +14,7 @@ public interface IKeyboardPlugin extends IPlugin {
 	public Collection<KeyboardStateListener> getKeyboardStateListeners();
 	
 	public void keyboardEventTick();
+
+	public Collection<IKeyboard> getKeyboards();
 	
 }
