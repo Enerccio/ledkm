@@ -64,17 +64,6 @@ public class ElgatoStreamDeckKeyboardPlugin implements IKeyboardPlugin {
 	public Collection<KeyboardStateListener> getKeyboardStateListeners() {
 		return new LinkedHashSet<>(stateListeners);
 	}
-	
-	/*
-		HidServicesSpecification hidServicesSpecification = new HidServicesSpecification();
-	    hidServicesSpecification.setAutoShutdown(true);
-	    hidServicesSpecification.setScanMode(ScanMode.NO_SCAN);
-		service = HidManager.getHidServices(hidServicesSpecification);
-		
-		service.scan();
-		
-		service.shutdown();
-	 */
 
 	@Override
 	public void load() throws PluginLoadException {

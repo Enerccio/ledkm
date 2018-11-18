@@ -31,9 +31,9 @@ public class Page implements KeyPressListener, KeyHeldListener, KeyReleaseListen
 		}
 	}
 	
-	public String pageName;
+	private String pageName;
 	
-	public List<KeyController> keys = new ArrayList<>();
+	private List<KeyController> keys = new ArrayList<>();
 
 	public String getPageName() {
 		return pageName;
@@ -55,12 +55,32 @@ public class Page implements KeyPressListener, KeyHeldListener, KeyReleaseListen
 		keyboard.registerKeyPressListener(this);
 		keyboard.registerKeyHeldListener(this);
 		keyboard.registerKeyReleaseListener(this);
+		
+		for (int i=0; i<keyboard.getColumns(); i++)
+			for (int j=0; j<keyboard.getRows(); j++) {
+				IKey kbKey = keyboard.getKey(j, i);
+				KeyController kc = getKeyController(kbKey);
+				
+				if (kc != null) {
+					kc.onAssign(kbKey);
+				}
+			}
 	}
 	
 	public void unsetPage(IKeyboard keyboard) {
 		keyboard.unregisterKeyPressListener(this);
 		keyboard.unregisterKeyHeldListener(this);
 		keyboard.unregisterKeyReleaseListener(this);
+		
+		for (int i=0; i<keyboard.getColumns(); i++)
+			for (int j=0; j<keyboard.getRows(); j++) {
+				IKey kbKey = keyboard.getKey(i, j);
+				KeyController kc = getKeyController(kbKey);
+				
+				if (kc != null) {
+					kc.onUnassign(kbKey);
+				}
+			}
 	}
 
 	public SerializationResult savePage() {

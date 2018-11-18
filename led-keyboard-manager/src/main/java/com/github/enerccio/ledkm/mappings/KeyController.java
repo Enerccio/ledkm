@@ -111,5 +111,17 @@ public class KeyController {
 			a.invoke(key, KeyState.HELD, time);
 		}
 	}
+
+	public void onAssign(IKey kbKey) {
+		if (imageSource != null) {
+			imageSource.get().keyAssigned(kbKey);
+		}
+	}
+	
+	public void onUnassign(IKey kbKey) {
+		if (imageSource != null) {
+			imageSource.get().keyUnassigned(kbKey);
+		}
+	}
 	
 }

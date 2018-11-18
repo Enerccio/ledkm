@@ -1,14 +1,9 @@
-import com.github.enerccio.ledkm.api.IKeyboardPlugin;
 import com.github.enerccio.ledkm.api.ILKM;
 import com.github.enerccio.ledkm.api.IPlugin;
 import com.github.enerccio.ledkm.api.PluginException;
 import com.github.enerccio.ledkm.api.components.IAction;
 import com.github.enerccio.ledkm.api.components.IKey;
 import com.github.enerccio.ledkm.api.components.IKey.KeyState;
-import com.github.enerccio.ledkm.api.components.IKeyboard;
-import com.github.enerccio.ledkm.api.components.IKeyboard.KeyboardState;
-import com.github.enerccio.ledkm.api.components.IKeyboard.KeyboardStateEvent;
-import com.github.enerccio.ledkm.api.components.IKeyboard.KeyboardStateListener;
 import com.github.enerccio.ledkm.api.components.IPluginReference;
 import com.github.enerccio.ledkm.mappings.KeyController;
 import com.github.enerccio.ledkm.mappings.Profile;
@@ -61,40 +56,9 @@ public class SimpleTest extends SimpleLoop {
 			}
 		}
 		
-		for (IKeyboardPlugin kbp : lkm.getKeyboardPlugins()) {
-			for (IKeyboard kb : kbp.getKeyboards()) {
-				connect(p, kb);
-			}
-			
-			kbp.registerKeyboardStateListener(new KeyboardStateListener() {
-
-				@Override
-				public void onKeyboardStateChanged(KeyboardStateEvent event) {
-					if (event.getState() == KeyboardState.CONNECTED) {
-						connect(p, event.getKeyboard());
-					} else {
-						disconnect(p, event.getKeyboard());
-					}
-				}
-				
-			});
-		}
+		bindProfileToNewDevice(p, lkm);
 		
 		runEventLoop(lkm);
-	}
-
-	protected static void connect(Profile p, IKeyboard keyboard) {
-		p.getPages().get(0).setPage(keyboard);
-	}
-
-	protected static void disconnect(Profile p, IKeyboard keyboard) {
-		p.getPages().get(0).unsetPage(keyboard);
-	}
-
-	private static void exit(IKey key, KeyState state, float time) {
-		if (state == KeyState.UP) {
-			running = false;
-		}
 	}
 	
 	private static void print(IKey key, KeyState state, float time) {

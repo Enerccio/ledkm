@@ -3,6 +3,7 @@ package com.github.enerccio.plugins.keyboards.elgato.standard;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
 import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
 import java.util.Collection;
@@ -52,6 +53,7 @@ public class ElgatoStreamDeck implements IKeyboard {
 	public void setup() {
 		device.open();
 		device.setNonBlocking(true);
+		clearBuffer();
 		setBrightness(1.0f);
 	}
 
@@ -261,7 +263,18 @@ public class ElgatoStreamDeck implements IKeyboard {
 	}
 
 	private void resolveRead(byte[] byteArray) {
-
+		int totalRowBytes = (getRows() * getColumns()) + 2;
+		byte[] buf = new byte[totalRowBytes];
+		
+		int startPos = 0;
+		while (startPos < byteArray.length) {
+			System.arraycopy(byteArray, startPos, buf, 0, totalRowBytes);
+			startPos += totalRowBytes;
+			resolveKeyEvent(buf);
+		}
+	}
+	
+	private void resolveKeyEvent(byte[] byteArray) {
 		boolean[][] keyStates = new boolean[getRows()][getColumns()];
 
 		for (int i = 0; i < getRows(); i++)
@@ -359,11 +372,12 @@ public class ElgatoStreamDeck implements IKeyboard {
 				ElgatoKey key = (ElgatoKey) getKey(row, column);
 
 				BufferedImage currentImage = key.getCurrentImage();
-				BufferedImage combined = combineImage(currentImage, backgrounds == null ? null : backgrounds[row][column]);
+				BufferedImage combined = rotateToDevice(
+						combineImage(currentImage, backgrounds == null ? null : backgrounds[row][column]));
 				int it = 0;
 
 				for (int i = 0; i < getButtonHeight(); i++) {
-					for (int j = getButtonWidth() - 1; j >= 0; j--) {
+					for (int j = 0; j < getButtonWidth(); j++) {
 						int rgb = combined.getRGB(i, j);
 						bb.asIntBuffer().put(rgb);
 
@@ -391,11 +405,11 @@ public class ElgatoStreamDeck implements IKeyboard {
 		byte[] buffer = new byte[PAGE_PACKET_SIZE - 1];
 		ByteBuffer bb = ByteBuffer.wrap(buffer);
 
-		byte[] header = new byte[] { 0x01, 0x01, 0x00, 0x00, (byte) key, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-				0x00, 0x00, 0x00, 0x42, 0x4d, (byte) 0xf6, 0x3c, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x36, 0x00, 0x00,
-				0x00, 0x28, 0x00, 0x00, 0x00, 0x48, 0x00, 0x00, 0x00, 0x48, 0x00, 0x00, 0x00, 0x01, 0x00, 0x18, 0x00,
-				0x00, 0x00, 0x00, 0x00, (byte) 0xc0, 0x3c, 0x00, 0x00, (byte) 0xc4, 0x0e, 0x00, 0x00, (byte) 0xc4, 0x0e,
-				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+		byte[] header = new byte[] { 0x01, 0x01, 0x00, 0x00, (byte) key, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+				0x00, 0x00, 0x42, 0x4d, (byte) 0xf6, 0x3c, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x36, 0x00, 0x00, 0x00,
+				0x28, 0x00, 0x00, 0x00, 0x48, 0x00, 0x00, 0x00, 0x48, 0x00, 0x00, 0x00, 0x01, 0x00, 0x18, 0x00, 0x00,
+				0x00, 0x00, 0x00, (byte) 0xc0, 0x3c, 0x00, 0x00, (byte) 0xc4, 0x0e, 0x00, 0x00, (byte) 0xc4, 0x0e, 0x00,
+				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
 		bb.put(header);
 		bb.put(firstPage);
@@ -409,8 +423,8 @@ public class ElgatoStreamDeck implements IKeyboard {
 		byte[] buffer = new byte[PAGE_PACKET_SIZE];
 		ByteBuffer bb = ByteBuffer.wrap(buffer);
 
-		byte[] header = new byte[] { 0x01, 0x02, 0x00, 0x01, (byte) key, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-				0x00, 0x00, 0x00 };
+		byte[] header = new byte[] { 0x01, 0x02, 0x00, 0x01, (byte) key, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+				0x00, 0x00 };
 
 		bb.put(header);
 		bb.put(secondPage);
@@ -439,6 +453,52 @@ public class ElgatoStreamDeck implements IKeyboard {
 		} else {
 			img = background;
 		}
-		return img;
+		
+		BufferedImage result = new BufferedImage(getButtonWidth(), getButtonHeight(), BufferedImage.TYPE_3BYTE_BGR);
+		Graphics2D g = (Graphics2D) result.getGraphics();
+		g.drawImage(img, 0, 0, null);
+		g.dispose();
+		return result;
+	}
+
+	private static BufferedImage rotateToDevice(BufferedImage src) {
+		int srcWidth = src.getWidth();
+		int srcHeight = src.getHeight();
+		int pixelLength = 3;
+		byte[] srcPixels = ((DataBufferByte) src.getRaster().getDataBuffer()).getData();
+
+		BufferedImage dest = new BufferedImage(srcHeight, srcWidth, src.getType());
+		byte[] destPixels = ((DataBufferByte) dest.getRaster().getDataBuffer()).getData();
+		int destWidth = dest.getWidth();
+		int destHeight = dest.getHeight();
+		
+		int destPos = 0;
+		for (int destY = 0; destY < destHeight; destY++) {
+			for (int destX = 0; destX < destWidth; destX++) {
+				
+				int srcY = destX;
+				int srcX = srcWidth - destY - 1;
+
+				int srcPos = (((srcY * destWidth) + srcX) * pixelLength);
+				
+				destPixels[destPos++] = srcPixels[srcPos++];
+				destPixels[destPos++] = srcPixels[srcPos++];
+				destPixels[destPos++] = srcPixels[srcPos++];
+			}
+		}
+
+		return dest;
+	}
+
+	public void clearBuffer() {
+		byte[] buffer = new byte[2048];
+
+		while (true) {
+			int readCount = device.read(buffer);
+			if (readCount == -1)
+				return;
+			if (readCount == 0)
+				break;
+		}
 	}
 }
