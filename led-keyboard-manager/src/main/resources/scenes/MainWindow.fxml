@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <SplitPane dividerPositions="0.32064128256513025" prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+            <VBox prefHeight="598.0" prefWidth="129.0" styleClass="leftSelector">
+               <children>
+                  <ToolBar prefHeight="40.0" prefWidth="200.0" styleClass="leftTopMenu">
+                     <items>
+                        <MenuButton mnemonicParsing="false" styleClass="leftSelector" stylesheets="@../styles/styles.css">
+                          <items>
+                            <MenuItem fx:id="profile_new" mnemonicParsing="false" text="New Profile" />
+                            <MenuItem fx:id="profile_edit" mnemonicParsing="false" text="Edit Profile" />
+                              <MenuItem fx:id="profile_remove" mnemonicParsing="false" text="Remove Profile" />
+                          </items>
+                           <graphic>
+                              <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../icons/keyboard.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </MenuButton>
+                        <Button blendMode="SRC_ATOP" mnemonicParsing="false" styleClass="background">
+                           <graphic>
+                              <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../icons/cogs.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Pane HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="profile_filter" promptText="Filter" />
+                     </items>
+                  </ToolBar>
+                  <ScrollPane fitToHeight="true" fitToWidth="true" styleClass="background" vbarPolicy="ALWAYS" VBox.vgrow="ALWAYS">
+                     <content>
+                        <VBox styleClass="leftProfileSelector" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS" />
+                     </content>
+                  </ScrollPane>
+                  <ScrollPane fx:id="devicesSP" fitToHeight="true" fitToWidth="true" prefHeight="150.0" styleClass="background">
+                     <content>
+                        <VBox fx:id="devices" spacing="10.0" styleClass="leftDeviceSelector" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS" />
+                     </content></ScrollPane>
+               </children>
+            </VBox>
+            <Pane prefWidth="576.0">
+               <children>
+                  <SubScene fx:id="kb_layout">
+                    <root>
+                      <Region />
+                    </root>
+                  </SubScene>
+               </children>
+            </Pane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

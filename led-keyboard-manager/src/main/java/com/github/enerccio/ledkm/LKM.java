@@ -105,6 +105,7 @@ public class LKM implements ILKM {
 
 	private Set<IKeyboardPlugin> kbPlugins = new HashSet<IKeyboardPlugin>();
 	private Set<IKeyboardPlugin> kbPluginsRef = Collections.unmodifiableSet(kbPlugins);
+	private boolean isDirty = false;
 
 	@Override
 	public Collection<IKeyboardPlugin> getKeyboardPlugins() {
@@ -113,12 +114,28 @@ public class LKM implements ILKM {
 
 	@Override
 	public void requestRepaint() {
-
+		isDirty = true;
 	}
 
 	@Override
 	public HidServices getHidService() {
 		return service;
+	}
+
+	public void saveState() {
+		
+	}
+
+	public boolean isDirty() {
+		return isDirty;
+	}
+	
+	public void clearDirty() {
+		isDirty = false;
+	}
+
+	public void redrawDevice() {
+		
 	}
 
 }

@@ -1,0 +1,20 @@
+
+.background {
+	-fx-background-color: #101010;
+}
+
+.leftSelector {
+	-fx-background-color: #101010;
+}
+
+.leftTopMenu {
+	-fx-background-color: #102010;
+}
+
+.leftProfileSelector {
+	-fx-background-color: #001505;
+}
+
+.leftDeviceSelector {
+	-fx-background-color: #001505;
+}

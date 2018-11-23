@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="67.0" prefWidth="200.0" styleClass="background" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1">
+  <columnConstraints>
+    <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="93.0" minWidth="10.0" prefWidth="79.0" />
+      <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" prefWidth="121.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <Label text="Id" textFill="WHITE" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+      <Label text="Brightness" textFill="WHITE" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+      <Label fx:id="deviceName" text="#1" textFill="#4d70d0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+         <padding>
+            <Insets left="5.0" />
+         </padding></Label>
+      <Label fx:id="deviceId" text="#2" textFill="#4d70d0" textOverrun="CLIP" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+         <padding>
+            <Insets left="5.0" />
+         </padding></Label>
+      <Slider fx:id="deviceBrightness" blockIncrement="0.1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" value="100.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
+         <padding>
+            <Insets left="5.0" />
+         </padding></Slider>
+      <Label alignment="CENTER_RIGHT" text="Device" textAlignment="RIGHT" textFill="WHITE" GridPane.halignment="RIGHT" GridPane.hgrow="NEVER" GridPane.valignment="CENTER">
+         <graphic>
+            <CheckBox fx:id="applies" mnemonicParsing="false" />
+         </graphic>
+      </Label>
+   </children>
+   <padding>
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+   </padding>
+</GridPane>
