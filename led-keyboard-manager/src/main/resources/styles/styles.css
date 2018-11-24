@@ -1,20 +1,166 @@
 
 .background {
-	-fx-background-color: #101010;
+		
 }
 
-.leftSelector {
-	-fx-background-color: #101010;
+.mainWindow {
+	
+}
+
+.mainWindowSplit {
+	
+}
+
+.mainWindowLeft {
+	
 }
 
 .leftTopMenu {
-	-fx-background-color: #102010;
+	
 }
 
-.leftProfileSelector {
-	-fx-background-color: #001505;
+.topbar {
+	
 }
 
-.leftDeviceSelector {
-	-fx-background-color: #001505;
+.topbarElement {
+	
+}
+
+.topbarMenuItem {
+	
+}
+
+.topbarProfileMenuItem {
+	
+}
+
+.topbarProfileMenuItemNew {
+	
+}
+
+.topbarProfileMenuItemEdit {
+	
+}
+
+.topbarProfileMenuItemRemove {
+	
+}
+
+.topbarSettingsMenuItem {
+	
+}
+
+.topbarFilter {
+	
+}
+
+.profilesSelectorContainer {
+	
+}
+
+.profilesSelector {
+	
+}
+
+.deviceSelectorContainer {
+	
+}
+
+.deviceSelector {
+	
+}
+
+.device {
+	-fx-border-color: black;
+	-fx-border-width: 5;
+	-fx-border-radius: 0; 
+	-fx-border-insets: 0;
+	-fx-border-style: solid line-join bevel line-cap square;
+}
+
+.deviceApplies {
+	
+}
+
+.deviceInformationLabel {
+	-fx-text-fill: gray;
+}
+
+.deviceInformationValue {
+	-fx-text-fill: black;
+}
+
+.deviceBrightnessController {
+	
+}
+
+.content {
+	
+}
+
+.rightSplit {
+	
+}
+
+.buttonRowsContent {
+	
+}
+
+.palette {
+	
+}
+
+.imageSourceHeader {
+	
+}
+
+.imageSourceContainer {
+	
+}
+
+.actionSourceHeader {
+	
+}
+
+.actionSourceContainer {
+	
+}
+
+/* profile stage */
+
+.ps-background {
+	
+}
+
+.ps-label {
+	
+}
+
+.ps-textfield {
+	
+}
+
+.ps-name {
+	
+}
+
+.ps-uuid {
+	
+}
+
+.ps-columns {
+	
+}
+
+.ps-rows {
+	
+}
+
+.ps-selector {
+	
+}
+
+.ps-buttons {
+	
 }

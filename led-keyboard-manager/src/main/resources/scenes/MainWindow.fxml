@@ -8,17 +8,32 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <SplitPane dividerPositions="0.32064128256513025" prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <SplitPane dividerPositions="0.32064128256513025" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
-            <VBox prefHeight="598.0" prefWidth="129.0" styleClass="leftSelector">
+            <VBox prefHeight="598.0" prefWidth="129.0">
                <children>
-                  <ToolBar prefHeight="40.0" prefWidth="200.0" styleClass="leftTopMenu">
+                  <ToolBar prefHeight="40.0" prefWidth="200.0">
                      <items>
-                        <MenuButton mnemonicParsing="false" styleClass="leftSelector" stylesheets="@../styles/styles.css">
+                        <MenuButton mnemonicParsing="false" stylesheets="@../styles/styles.css">
                           <items>
-                            <MenuItem fx:id="profile_new" mnemonicParsing="false" text="New Profile" />
-                            <MenuItem fx:id="profile_edit" mnemonicParsing="false" text="Edit Profile" />
-                              <MenuItem fx:id="profile_remove" mnemonicParsing="false" text="Remove Profile" />
+                            <MenuItem fx:id="profileNew" mnemonicParsing="false" text="New Profile">
+                                 <styleClass>
+                                    <String fx:value="background" />
+                                    <String fx:value="topbarMenuItem" />
+                                    <String fx:value="topbarProfileMenuItemNew" />
+                                 </styleClass></MenuItem>
+                            <MenuItem fx:id="profileEdit" mnemonicParsing="false" text="Edit Profile">
+                                 <styleClass>
+                                    <String fx:value="background" />
+                                    <String fx:value="topbarMenuItem" />
+                                    <String fx:value="topbarProfileMenuItemEdit" />
+                                 </styleClass></MenuItem>
+                              <MenuItem fx:id="profileRemove" mnemonicParsing="false" text="Remove Profile">
+                                 <styleClass>
+                                    <String fx:value="background" />
+                                    <String fx:value="topbarMenuItem" />
+                                    <String fx:value="topbarProfileMenuItemRemove" />
+                                 </styleClass></MenuItem>
                           </items>
                            <graphic>
                               <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
@@ -27,6 +42,12 @@
                                  </image>
                               </ImageView>
                            </graphic>
+                           <styleClass>
+                              <String fx:value="background" />
+                              <String fx:value="topbarElement" />
+                              <String fx:value="topbarMenuItem" />
+                              <String fx:value="topbarProfileMenuItem" />
+                           </styleClass>
                         </MenuButton>
                         <Button blendMode="SRC_ATOP" mnemonicParsing="false" styleClass="background">
                            <graphic>
@@ -34,34 +55,149 @@
                                  <image>
                                     <Image url="@../icons/cogs.png" />
                                  </image>
+                                 <styleClass>
+                                    <String fx:value="background" />
+                                    <String fx:value="topbarElement" />
+                                    <String fx:value="topbarSettingsMenuItem" />
+                                 </styleClass>
                               </ImageView>
                            </graphic>
                         </Button>
                         <Pane HBox.hgrow="ALWAYS" />
-                        <TextField fx:id="profile_filter" promptText="Filter" />
+                        <TextField fx:id="profile_filter" promptText="Filter">
+                           <styleClass>
+                              <String fx:value="background" />
+                              <String fx:value="topbarElement" />
+                              <String fx:value="topbarFilter" />
+                           </styleClass></TextField>
                      </items>
+                     <styleClass>
+                        <String fx:value="background" />
+                        <String fx:value="topbar" />
+                     </styleClass>
                   </ToolBar>
-                  <ScrollPane fitToHeight="true" fitToWidth="true" styleClass="background" vbarPolicy="ALWAYS" VBox.vgrow="ALWAYS">
+                  <ScrollPane fx:id="profilesScrollPane" fitToHeight="true" fitToWidth="true" vbarPolicy="ALWAYS" VBox.vgrow="ALWAYS">
                      <content>
-                        <VBox styleClass="leftProfileSelector" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS" />
+                        <VBox fx:id="profiles" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                           <styleClass>
+                              <String fx:value="background" />
+                              <String fx:value="profilesSelector" />
+                           </styleClass></VBox>
                      </content>
+                     <styleClass>
+                        <String fx:value="background" />
+                        <String fx:value="profilesSelectorContainer" />
+                     </styleClass>
                   </ScrollPane>
-                  <ScrollPane fx:id="devicesSP" fitToHeight="true" fitToWidth="true" prefHeight="150.0" styleClass="background">
+                  <ScrollPane fx:id="devicesScrollPane" fitToHeight="true" fitToWidth="true" prefHeight="150.0">
                      <content>
-                        <VBox fx:id="devices" spacing="10.0" styleClass="leftDeviceSelector" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS" />
-                     </content></ScrollPane>
+                        <VBox fx:id="devices" spacing="10.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                           <styleClass>
+                              <String fx:value="background" />
+                              <String fx:value="deviceSelector" />
+                           </styleClass></VBox>
+                     </content>
+                     <styleClass>
+                        <String fx:value="background" />
+                        <String fx:value="deviceSelectorContainer" />
+                     </styleClass></ScrollPane>
                </children>
+               <styleClass>
+                  <String fx:value="background" />
+                  <String fx:value="mainWindowLeft" />
+               </styleClass>
             </VBox>
-            <Pane prefWidth="576.0">
+            <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity">
                <children>
-                  <SubScene fx:id="kb_layout">
-                    <root>
-                      <Region />
-                    </root>
-                  </SubScene>
+                  <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">
+                     <children>
+                        <SplitPane dividerPositions="0.6934523809523809" prefHeight="598.0" prefWidth="674.0" VBox.vgrow="ALWAYS">
+                          <items>
+                            <AnchorPane fx:id="contentAnchor" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                                 <styleClass>
+                                    <String fx:value="background" />
+                                    <String fx:value="buttonRowsContent" />
+                                 </styleClass>
+                              </AnchorPane>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="154.0">
+                                 <children>
+                                    <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="596.0" prefWidth="202.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <TitledPane fx:id="sourcesContainer" animated="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" text="Image sources" VBox.vgrow="ALWAYS">
+                                                   <content>
+                                                      <Accordion fx:id="sources">
+                                                         <styleClass>
+                                                            <String fx:value="background" />
+                                                            <String fx:value="imageSourceContainer" />
+                                                         </styleClass>
+                                                      </Accordion>
+                                                   </content>
+                                                   <styleClass>
+                                                      <String fx:value="background" />
+                                                      <String fx:value="imageSourceHeader" />
+                                                   </styleClass>
+                                                </TitledPane>
+                                                <TitledPane fx:id="actionsContainer" animated="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" text="Actions" VBox.vgrow="ALWAYS">
+                                                   <content>
+                                                      <Accordion fx:id="actions">
+                                                         <styleClass>
+                                                            <String fx:value="background" />
+                                                            <String fx:value="actionSourceContainer" />
+                                                         </styleClass>
+                                                      </Accordion>
+                                                   </content>
+                                                   <styleClass>
+                                                      <String fx:value="background" />
+                                                      <String fx:value="actionSourceHeader" />
+                                                   </styleClass>
+                                                </TitledPane>
+                                             </children>
+                                             <styleClass>
+                                                <String fx:value="background" />
+                                                <String fx:value="palette" />
+                                             </styleClass>
+                                          </VBox>
+                                       </children>
+                                       <styleClass>
+                                          <String fx:value="background" />
+                                          <String fx:value="palette" />
+                                       </styleClass>
+                                    </HBox>
+                                 </children>
+                                 <styleClass>
+                                    <String fx:value="background" />
+                                    <String fx:value="palette" />
+                                 </styleClass>
+                              </AnchorPane>
+                          </items>
+                           <styleClass>
+                              <String fx:value="background" />
+                              <String fx:value="rightSplit" />
+                           </styleClass>
+                        </SplitPane>
+                     </children>
+                     <styleClass>
+                        <String fx:value="background" />
+                        <String fx:value="content" />
+                     </styleClass>
+                  </VBox>
                </children>
-            </Pane>
+               <styleClass>
+                  <String fx:value="background" />
+                  <String fx:value="content" />
+               </styleClass>
+            </HBox>
         </items>
+         <styleClass>
+            <String fx:value="background" />
+            <String fx:value="mainWindowSplit" />
+         </styleClass>
       </SplitPane>
    </children>
+   <styleClass>
+      <String fx:value="background" />
+      <String fx:value="mainWindow" />
+   </styleClass>
 </AnchorPane>

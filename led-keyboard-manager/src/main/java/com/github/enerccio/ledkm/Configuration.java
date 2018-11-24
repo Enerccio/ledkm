@@ -15,4 +15,13 @@ public class Configuration {
 		Configuration.pluginDirectory = pluginDirectory;
 	}
 
+	private static Path profileDirectory = Paths.get(System.getProperty("user.home"), ".ledkm", "profiles");
+	
+	public static Path getProfileDirectory() {
+		return profileDirectory;
+	}
+
+	public static void setProfileDirectory(Path profileDirectory) {
+		Configuration.profileDirectory = profileDirectory;
+	}
 }

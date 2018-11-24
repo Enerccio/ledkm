@@ -5,24 +5,25 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.github.enerccio.ledkm.api.profiles.IProfile;
 import com.github.enerccio.ledkm.utils.SerializationResult;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-public class Profile {
+public class Profile implements IProfile {
+	public static final String UUID = "uuid";
 	public static final String ROWS_ACCESSOR = "rows";
 	public static final String COLUMNS_ACCESSOR = "columns";
 	public static final String PAGES_ACCESSOR = "pages";
 	public static final String LAST_DEVICES_ACCESSOR = "assignedDevices";
 	
+	private String uuid;
 	private String name;
-	
 	private int rows, columns;
-	
 	private List<Page> pages = new ArrayList<>();
-	
 	private Set<String> assignedDevices = new LinkedHashSet<String>();
 
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -31,6 +32,7 @@ public class Profile {
 		this.name = name;
 	}
 
+	@Override
 	public int getRows() {
 		return rows;
 	}
@@ -39,6 +41,7 @@ public class Profile {
 		this.rows = rows;
 	}
 
+	@Override
 	public int getColumns() {
 		return columns;
 	}
@@ -54,7 +57,8 @@ public class Profile {
 	public void setPages(List<Page> pages) {
 		this.pages = pages;
 	}	
-	
+
+	@Override
 	public Set<String> getAssignedDevices() {
 		return assignedDevices;
 	}
@@ -68,6 +72,7 @@ public class Profile {
 		
 		JsonObject jo = new JsonObject();
 		
+		jo.addProperty(UUID, getUuid());
 		jo.addProperty(COLUMNS_ACCESSOR, getColumns());
 		jo.addProperty(ROWS_ACCESSOR, getRows());
 		
@@ -90,5 +95,14 @@ public class Profile {
 		
 		r.setResult(jo);
 		return r;
+	}
+	
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
+
+	@Override
+	public String getUuid() {
+		return uuid;
 	}
 }

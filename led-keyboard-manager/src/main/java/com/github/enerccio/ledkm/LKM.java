@@ -1,15 +1,24 @@
 package com.github.enerccio.ledkm;
 
+import java.io.File;
+import java.io.FileFilter;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.ServiceLoader;
 import java.util.Set;
+import java.util.TreeSet;
+import java.util.UUID;
 
+import org.apache.commons.io.FileUtils;
 import org.hid4java.HidManager;
 import org.hid4java.HidServices;
 import org.hid4java.HidServicesSpecification;
@@ -24,8 +33,15 @@ import org.osgi.framework.launch.FrameworkFactory;
 import com.github.enerccio.ledkm.api.IKeyboardPlugin;
 import com.github.enerccio.ledkm.api.ILKM;
 import com.github.enerccio.ledkm.api.IPlugin;
+import com.github.enerccio.ledkm.api.components.IKeyboard;
+import com.github.enerccio.ledkm.api.profiles.IProfile;
+import com.github.enerccio.ledkm.mappings.Profile;
+import com.github.enerccio.ledkm.utils.SerializationResult;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class LKM implements ILKM {
+	private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
 	private HidServices service;
 	private Framework f = null;
@@ -85,10 +101,14 @@ public class LKM implements ILKM {
 		}
 
 		service.start();
+		
+		restoreAll();
 	}
 
 	public void shutdown() {
 		try {
+			saveState();
+			
 			for (IPlugin plugin : plugins) {
 				plugin.shutdown();
 			}
@@ -111,6 +131,17 @@ public class LKM implements ILKM {
 	public Collection<IKeyboardPlugin> getKeyboardPlugins() {
 		return kbPluginsRef;
 	}
+	
+	@Override
+	public Collection<IKeyboard> getKeyboards() {
+		Set<IKeyboard> kbs = new LinkedHashSet<IKeyboard>();
+		
+		for (IKeyboardPlugin kbp : getKeyboardPlugins()) {
+			kbs.addAll(kbp.getKeyboards());
+		}
+		
+		return kbs;
+	}
 
 	@Override
 	public void requestRepaint() {
@@ -122,10 +153,6 @@ public class LKM implements ILKM {
 		return service;
 	}
 
-	public void saveState() {
-		
-	}
-
 	public boolean isDirty() {
 		return isDirty;
 	}
@@ -133,9 +160,92 @@ public class LKM implements ILKM {
 	public void clearDirty() {
 		isDirty = false;
 	}
+	
+	private List<Profile> profiles = new ArrayList<Profile>();
+	private Collection<Profile> profilesView = Collections.unmodifiableList(profiles);
+	private int currentProfile = -1;
 
-	public void redrawDevice() {
-		
+	@SuppressWarnings("unused")
+	private void restoreAll() throws Exception {
+		if (!Configuration.getProfileDirectory().toFile().exists()) {
+			Configuration.getProfileDirectory().toFile().mkdirs();
+		}
+
+		currentProfile = -1;
+		TreeSet<File> profiles = new TreeSet<File>();
+
+		for (File f : Configuration.getProfileDirectory().toFile().listFiles(new FileFilter() {
+
+			@Override
+			public boolean accept(File pathname) {
+				return pathname.getName().endsWith(".lkmp");
+			}
+		})) {
+			profiles.add(f);
+		}
+
+		for (File f : profiles) {
+			if (currentProfile == -1)
+				currentProfile = 0;
+			
+			Profile p = new Profile();
+			// TODO
+		}
+	}
+
+	public void saveState() throws Exception {
+		FileUtils.deleteDirectory(Configuration.getProfileDirectory().toFile());
+		Configuration.getProfileDirectory().toFile().mkdirs();
+
+		int ord = 0;
+		for (Profile p : profiles) {
+			SerializationResult sr = p.saveProfile();
+			if (sr.getFailures().isEmpty()) {
+				String profileName = String.format("%s/%04d.lkmp",
+						Configuration.getProfileDirectory().toFile().getAbsolutePath(), ++ord);
+				FileUtils.write(new File(profileName), gson.toJson(sr.getResult()), Charset.forName("utf-8"));
+			} else {
+				// TODO
+			}
+		}
+	}
+
+	@Override
+	public IProfile getActiveProfile() {
+		try {
+			if (currentProfile >= 0) {
+				return profiles.get(currentProfile);
+			}
+		} catch (Exception e) {
+			
+		}
+		return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Collection<IProfile> getAllProfiles() {
+		return (Collection<IProfile>) (Object) profilesView;
+	}
+
+	@Override
+	public void removeProfile(IProfile profile) {
+		if (profiles.indexOf(profile) == currentProfile)
+			currentProfile = -1;
+		profiles.remove(profile);
+	}
+
+	@Override
+	public void setActiveProfile(IProfile profile) {
+		currentProfile = profiles.indexOf(profile);
+	}
+
+	@Override
+	public IProfile createNewProfile() {
+		Profile p = new Profile();
+		p.setUuid(UUID.randomUUID().toString());
+		profiles.add(p);
+		return p;
 	}
 
 }
