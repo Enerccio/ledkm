@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="42.0" prefWidth="200.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1">
+   <styleClass>
+      <String fx:value="background" />
+      <String fx:value="profile" />
+   </styleClass>
+   <children>
+      <Label fx:id="profileName" maxWidth="1.7976931348623157E308" prefHeight="16.0" text="Name of the profile" textOverrun="WORD_ELLIPSIS" VBox.vgrow="ALWAYS">
+         <styleClass>
+            <String fx:value="background" />
+            <String fx:value="profileLabelName" />
+         </styleClass>
+      </Label>
+      <Label fx:id="profileUuid" maxWidth="1.7976931348623157E308" prefHeight="16.0" text="Profile UUID" textOverrun="CLIP">
+         <styleClass>
+            <String fx:value="background" />
+            <String fx:value="profileLabelUuid" />
+         </styleClass>
+      </Label>
+   </children>
+</VBox>

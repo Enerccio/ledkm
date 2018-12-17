@@ -72,8 +72,9 @@ public class ProfileDialog extends BaseDialog<ProfileDialogController> {
 		});
 		
 		controller.cancel.setOnAction(event -> {
-			closeDialog();
+			self.close();
 		});
+		
 		self.setOnCloseRequest(event -> {
 			closeDialog();
 		});

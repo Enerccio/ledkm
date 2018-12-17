@@ -127,6 +127,30 @@
 	
 }
 
+.profile {
+	-fx-border-color: black;
+	-fx-border-width: 5;
+	-fx-border-radius: 0; 
+	-fx-border-insets: 0;
+	-fx-border-style: solid line-join bevel line-cap square;
+}
+
+.profileActive {
+	-fx-background-color: #4542f4;
+}
+
+.profileActive > Label {
+	-fx-text-fill: white;	
+}
+
+.profileLabelName {
+	
+}
+
+.profileLabelUuid {
+	
+}
+
 /* profile stage */
 
 .ps-background {

@@ -1,10 +1,14 @@
 package com.github.enerccio.ledkm;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.hid4java.HidServices;
 
 import com.github.enerccio.ledkm.api.IKeyboardPlugin;
 import com.github.enerccio.ledkm.api.components.IKeyboard;
 import com.github.enerccio.ledkm.api.components.IKeyboard.KeyboardState;
+import com.github.enerccio.ledkm.api.profiles.IProfile;
 import com.github.enerccio.ledkm.dialogs.ProfileDialog;
 import com.github.enerccio.ledkm.mappings.Profile;
 
@@ -103,9 +107,85 @@ public class LKMController {
 	}
 
 	private void redrawState() throws Exception {
+		showProfiles();
 		showDevices();
 	}
 	
+	public static class ProfileSelector {
+		
+		@FXML
+		private Label profileName;
+		
+		@FXML
+		private Label profileUuid;
+		
+		private VBox self;
+		
+	}
+	
+	private Map<IProfile, ProfileSelector> profileBoxes = new HashMap<IProfile, ProfileSelector>();
+	
+	private void showProfiles() throws Exception {
+		profileBoxes.clear();
+		double scrollPos = profilesScrollPane.getVvalue();
+		profiles.getChildren().clear();
+		
+		for (IProfile p : LedKM.manager.getAllProfiles()) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/scenes/ProfileSelector.fxml"));
+			ProfileSelector ps = new ProfileSelector();
+			loader.setController(ps);
+			
+			VBox vb = (VBox) loader.load();
+			
+			ps.self = vb;
+			ps.profileName.setText(p.getName());
+			ps.profileUuid.setText(p.getUuid());
+			
+			vb.setMaxWidth(Double.MAX_VALUE);
+			profiles.getChildren().add(vb);
+			
+			profileBoxes.put(p, ps);
+			vb.setOnMouseClicked(e -> {
+				try {
+					highlightProfile(p);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				LedKM.manager.setActiveProfile(p);
+				LedKM.manager.requestRepaint();
+			});	
+			
+			if (LedKM.manager.getActiveProfile() == p) {
+				highlightProfile(p);
+			}
+		}
+		
+		profilesScrollPane.setVvalue(scrollPos);
+	}
+
+	private void highlightProfile(IProfile p) throws Exception {
+		ProfileSelector vbProfileS = profileBoxes.get(p);
+		
+		for (ProfileSelector vbS : profileBoxes.values()) {
+			VBox vbProfile = vbProfileS.self;
+			VBox vb = vbS.self;
+			
+			vb.getStyleClass().remove("profileActive");
+			if (vb == vbProfile) {
+				vb.getStyleClass().add("profileActive");
+			}
+			vb.applyCss();
+		}
+		
+		loadProfileContent(p);
+	}
+
+	private void loadProfileContent(IProfile p) throws Exception {
+		
+	}
+
 	public static class DeviceController {
 		
 		@FXML
